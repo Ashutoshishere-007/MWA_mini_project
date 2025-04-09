@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="weatherApp">
+<head>
+  <meta charset="UTF-8" />
+  <title>Weather Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="app.js"></script>
+  <script src="weatherController.js"></script>
+</head>
+<body ng-controller="WeatherController">
+  <div class="main-wrapper">
+    <div class="container">
+      <h1>Weather Dashboard</h1>
+
+      <div class="input-group">
+        <input type="text" ng-model="city" placeholder="Enter city name" />
+        <button ng-click="getWeather()">Get Weather</button>
+      </div>
+
+      <div class="weather-info" ng-if="weatherData">
+        <h2>{{ weatherData.name }}</h2>
+        <p><strong>Temperature:</strong> {{ weatherData.temp }} °C</p>
+        <p><strong>Condition:</strong> {{ weatherData.description }}</p>
+        <p><strong>Humidity:</strong> {{ weatherData.humidity }}%</p>
+        <p><strong>Wind Speed:</strong> {{ weatherData.wind }} km/h</p>
+      </div>
+
+      <div class="forecast" ng-if="weatherData.forecast">
+        <h3>3-Day Forecast</h3>
+        <div class="forecast-cards">
+          <div class="forecast-day" ng-repeat="day in weatherData.forecast">
+            <p><strong>Date:</strong> {{ day.date }}</p>
+            <p><strong>Avg Temp:</strong> {{ day.avgtempC }} °C</p>
+            <p><strong>Condition:</strong> {{ day.hourly[4].weatherDesc[0].value }}</p>
+            <p><strong>Humidity:</strong> {{ day.hourly[4].humidity }}%</p>
+            <p><strong>Wind:</strong> {{ day.hourly[4].windspeedKmph }} km/h</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="history" ng-if="cityHistory.length">
+        <h3>Search History</h3>
+        <ul>
+          <li ng-repeat="city in cityHistory">
+            <a href="" ng-click="selectHistory(city)">{{ city }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="error" ng-if="errorMessage">{{ errorMessage }}</div>
+    </div>
+  </div>
+</body>
+</html>
